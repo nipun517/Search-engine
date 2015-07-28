@@ -1,0 +1,21 @@
+<div>
+  <% if @data.xpath("//img/@src") %>
+    <% @data.xpath("//img/@src").each do |img| %>
+      <%= image_tag img.value %> &nbsp;
+    <% end %>
+  <% end %>
+  <p>&nbsp;</p>
+  <% gens= Hash[nodes.zip descriptions] %>
+  <% gens.each do |key, value| %>
+    <% begin %>
+      <div>
+        <p><%= link_to key.text.force_encoding("ISO-8859-1").encode("utf-8", replace: nil), "https://www.google.com#{key['href']}", :target => "_blank" if key.text.present? %></p>
+        <p><%= key['href'].split('?q=').last.split("&").first %>
+        <p><%= value.force_encoding("ISO-8859-1").encode("utf-8", replace: nil) if value.present? %></p>
+      </div>
+      <p>&nbsp;</p>
+    <% rescue %>
+      <% Rails.logger.info "Nothing to print" %>
+    <% end %>
+  <% end %>
+</div>
